@@ -13,11 +13,35 @@ import {
 } from 'react-icons/fa'
 import {
   SiMongodb,
-  SiExpress,
   SiNextdotjs,
   SiTailwindcss,
   SiJavascript,
 } from 'react-icons/si'
+
+// ── Float keyframe injection (fixes missing @keyframes float) ──────────────
+const floatKeyframes = `
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-10px); }
+  }
+`
+
+function InjectFloatStyle() {
+  useEffect(() => {
+    const id = 'hero-float-style'
+    if (!document.getElementById(id)) {
+      const style = document.createElement('style')
+      style.id = id
+      style.textContent = floatKeyframes
+      document.head.appendChild(style)
+    }
+    return () => {
+      const el = document.getElementById('hero-float-style')
+      el?.remove()
+    }
+  }, [])
+  return null
+}
 
 // ── Typing animation hook ──────────────────────────────────────────────────
 function useTypewriter(words, speed = 80, pause = 1800) {
@@ -60,15 +84,15 @@ function FloatingBadge({ icon: Icon, label, color, className, delay = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
       transition={{ delay, duration: 0.5, type: 'spring', bounce: 0.4 }}
       className={`absolute flex items-center gap-2 px-3 py-2 rounded-xl
         glass-card text-xs font-medium whitespace-nowrap
         shadow-lg pointer-events-none select-none
         ${className}`}
       style={{
-        animation: `float ${3.5 + delay}s ease-in-out infinite`,
-        animationDelay: `${delay}s`,
+        animation: `float ${3.5 + delay}s ease-in-out ${delay}s infinite`,
       }}
     >
       <Icon className={`text-base ${color}`} />
@@ -82,7 +106,8 @@ function Avatar() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
       className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 mx-auto"
     >
@@ -102,12 +127,12 @@ function Avatar() {
       <div className="absolute inset-0 rounded-full p-1
         bg-gradient-to-br from-primary-400 via-purple-500 to-accent-400">
         <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 p-1">
-          {/* Avatar initials fallback — styled as a professional avatar */}
+          {/* Avatar initials */}
           <div className="w-full h-full rounded-full
             bg-gradient-to-br from-primary-500 via-purple-600 to-accent-500
             flex flex-col items-center justify-center
             text-white select-none overflow-hidden relative">
-
+              <img className='h-full w-full' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="" />
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-10">
               {[...Array(6)].map((_, i) => (
@@ -123,14 +148,6 @@ function Avatar() {
                 />
               ))}
             </div>
-
-            {/* Initials */}
-            <span className="relative z-10 text-5xl sm:text-6xl font-bold tracking-tight drop-shadow-lg">
-              GM
-            </span>
-            <span className="relative z-10 text-xs sm:text-sm font-medium opacity-80 mt-1 tracking-widest uppercase">
-              Dev
-            </span>
           </div>
         </div>
       </div>
@@ -208,15 +225,23 @@ const ROLES = [
 ]
 
 const containerVariants = {
-  hidden: {},
+  hidden: { opacity: 0 },
   visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.4,
+    },
   },
 }
 
 const itemVariants = {
-  hidden:  { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 export default function Hero() {
@@ -227,10 +252,17 @@ export default function Hero() {
   }
 
   return (
-    <section
+    <motion.section
       id="hero"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
       className="relative min-h-screen flex items-center pt-16 section-padding overflow-hidden"
     >
+      {/* Inject @keyframes float into <head> */}
+      <InjectFloatStyle />
+
       {/* Grid pattern background */}
       <div
         className="absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.06]"
@@ -248,9 +280,6 @@ export default function Hero() {
 
           {/* ── Left: Text content ── */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
             className="flex flex-col items-start"
           >
 
@@ -260,13 +289,9 @@ export default function Hero() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4"
             >
               I'm{' '}
-              <span className="gradient-text">
-                Ghulam
-              </span>
+              <span className="gradient-text">Ghulam</span>
               <br />
-              <span className="gradient-text">
-                Mustafa
-              </span>
+              <span className="gradient-text">Mustafa</span>
             </motion.h1>
 
             {/* Typewriter role */}
@@ -277,7 +302,11 @@ export default function Hero() {
               <span className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 font-mono">
                 {role}
               </span>
-              <span className="w-0.5 h-6 bg-primary-500 animate-pulse rounded-full" />
+              <motion.span
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                className="w-0.5 h-6 bg-primary-500 rounded-full inline-block"
+              />
             </motion.div>
 
             {/* Description */}
@@ -343,32 +372,6 @@ export default function Hero() {
                 Resume
               </motion.a>
             </motion.div>
-
-            {/* Socials */}
-            <motion.div
-              variants={itemVariants}
-              className="flex items-center gap-3 mb-10"
-            >
-              <span className="text-sm text-gray-400 dark:text-gray-500">Find me on</span>
-              <SocialBtn
-                href="https://github.com/G-Mustafa1"
-                icon={FaGithub}
-                label="GitHub"
-                color="hover:text-gray-900 dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-500"
-              />
-              <SocialBtn
-                href="https://www.linkedin.com/in/ghulam-mustufa-"
-                icon={FaLinkedinIn}
-                label="LinkedIn"
-                color="hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700"
-              />
-              <SocialBtn
-                href="mailto:gmustufa1255@gmail.com"
-                icon={HiMail}
-                label="Email"
-                color="hover:text-red-500 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-700"
-              />
-            </motion.div>
           </motion.div>
 
           {/* ── Right: Avatar + floating badges ── */}
@@ -420,31 +423,7 @@ export default function Hero() {
             <Avatar />
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.5 }}
-          className="flex flex-col items-center gap-2 mt-16 lg:mt-20"
-        >
-          <span className="text-xs text-gray-400 dark:text-gray-500 tracking-widest uppercase">
-            Scroll Down
-          </span>
-          <motion.button
-            onClick={scrollToAbout}
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600
-              flex items-center justify-center
-              text-gray-400 dark:text-gray-500
-              hover:border-primary-400 hover:text-primary-500
-              transition-colors duration-200"
-          >
-            <HiArrowDown className="text-sm" />
-          </motion.button>
-        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
