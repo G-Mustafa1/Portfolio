@@ -1,0 +1,132 @@
+import {
+    FaGithub,
+    FaExternalLinkAlt,
+    FaReact,
+    FaNodeJs,
+    FaHtml5,
+    FaCss3Alt,
+    FaJs,
+} from 'react-icons/fa'
+
+import {
+    SiMongodb,
+    SiExpress,
+    SiTailwindcss,
+    SiNextdotjs,
+    SiFirebase,
+    SiRedux,
+    SiJsonwebtokens,
+    SiBootstrap,
+    SiThreedotjs,
+    SiFramer,
+} from 'react-icons/si'
+
+import {
+    HiCode,
+    HiFilter,
+    HiStar,
+    HiEye,
+    HiExternalLink,
+    HiSparkles,
+} from 'react-icons/hi'
+
+
+export const TECH_ICONS = {
+    'React': { icon: FaReact, color: 'text-cyan-500' },
+    'Node.js': { icon: FaNodeJs, color: 'text-green-600' },
+    'MongoDB': { icon: SiMongodb, color: 'text-green-500' },
+    'Express': { icon: SiExpress, color: 'text-gray-600 dark:text-gray-400' },
+    'Tailwind': { icon: SiTailwindcss, color: 'text-cyan-400' },
+    'Next.js': { icon: SiNextdotjs, color: 'text-gray-800 dark:text-gray-200' },
+    'Firebase': { icon: SiFirebase, color: 'text-orange-400' },
+    'Redux': { icon: SiRedux, color: 'text-purple-500' },
+    'JWT': { icon: SiJsonwebtokens, color: 'text-pink-500' },
+    'HTML': { icon: FaHtml5, color: 'text-orange-500' },
+    'CSS': { icon: FaCss3Alt, color: 'text-blue-500' },
+    'JavaScript': { icon: FaJs, color: 'text-yellow-500' },
+    'Bootstrap': { icon: SiBootstrap, color: 'text-purple-600' },
+    'Three.js': { icon: SiThreedotjs, color: 'text-black dark:text-white' },
+    'Framer Motion': { icon: SiFramer, color: 'text-pink-500' }
+}
+
+export const PROJECTS = [
+    {
+        id: 1,
+        title: 'Bootcamp Tracker',
+        description: 'Built a modern MERN Stack bootcamp management platform in a team environment with features like student tracking, authentication, dashboard management, and responsive UI development.',
+        longDesc: 'Built a modern MERN Stack bootcamp management platform in a team environment with features like student tracking, authentication, dashboard management, and responsive UI development.',
+        tech: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Tailwind'],
+        github: 'https://github.com/G-Mustafa1',
+        live: 'https://bms-frontend-eight.vercel.app',
+        category: 'fullstack',
+        image: 'bms.png',
+        featured: true,
+    },
+    {
+        id: 2,
+        title: 'Meeting Mind',
+        description: 'Developed a collaborative meeting management platform with features like meeting scheduling, task organization, authentication, and responsive dashboard interfaces using the MERN Stack.',
+        longDesc: 'Developed a collaborative meeting management platform with features like meeting scheduling, task organization, authentication, and responsive dashboard interfaces using the MERN Stack.',
+        tech: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Tailwind'],
+        github: 'https://github.com/G-Mustafa1',
+        live: 'https://meeting-mind-olive.vercel.app/',
+        category: 'fullstack',
+        image: 'mm.png',
+        featured: true,
+    },
+    {
+        id: 3,
+        title: 'Healthmate Ai Integration',
+        description: 'Built an AI-powered healthcare platform using the MERN Stack, enabling users to upload medical reports, analyze them with AI, and receive clear and intelligent health insights through a user-friendly interface.',
+        longDesc: 'Built an AI-powered healthcare platform using the MERN Stack, enabling users to upload medical reports, analyze them with AI, and receive clear and intelligent health insights through a user-friendly interface.',
+        tech: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Tailwind'],
+        github: 'https://github.com/G-Mustafa1/HealthMate-Web',
+        live: 'https://health-mate-web.vercel.app/',
+        category: 'fullstack',
+        image: 'hl.png',
+        featured: true,
+    },
+    {
+        id: 4,
+        title: 'Expense Tracker',
+        description: 'Built a full-stack Expense Tracker using the MERN Stack with features like income and expense management, transaction tracking, financial summaries, and a responsive user-friendly interface.',
+        longDesc: 'Built a full-stack Expense Tracker using the MERN Stack with features like income and expense management, transaction tracking, financial summaries, and a responsive user-friendly interface.',
+        tech: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Tailwind'],
+        github: 'https://github.com/G-Mustafa1/Expence-Tracker',
+        live: 'https://expence-tracker-psi-six.vercel.app/',
+        category: 'fullstack',
+        image: 'ex.png',
+        featured: false,
+    },
+    {
+        id: 5,
+        title: 'MERN Auth System',
+        description: 'Built a complete MERN Stack authentication system with secure user registration and login, access and refresh tokens, OTP/email verification, and password reset functionality using Nodemailer.',
+        longDesc: 'Built a complete MERN Stack authentication system with secure user registration and login, access and refresh tokens, OTP/email verification, and password reset functionality using Nodemailer.',
+        tech: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Tailwind'],
+        github: 'https://github.com/G-Mustafa1/Authentication-System',
+        live: 'https://authentication-system-khaki.vercel.app/',
+        category: 'fullstack',
+        image: 'at.png',
+        featured: false,
+    },
+    {
+        id: 6,
+        title: 'Interactive 3D Website',
+        description: 'Built an interactive 3D website using React and Three.js, featuring immersive 3D visuals, smooth animations, and an engaging user interface for a modern web experience.',
+        longDesc: 'Built an interactive 3D website using React and Three.js, featuring immersive 3D visuals, smooth animations, and an engaging user interface for a modern web experience.',
+        tech: ['React', 'Three.js', 'Tailwind', 'Framer Motion', 'JavaScript'],
+        github: 'https://github.com/G-Mustafa1/3D-Web-With-React',
+        live: 'https://3d-web-with-react.vercel.app/',
+        category: 'frontend',
+        image: 'st.png',
+        featured: false,
+    },
+]
+
+export const FILTERS = [
+    { id: 'all', label: 'All Projects' },
+    { id: 'featured', label: 'Featured' },
+    { id: 'fullstack', label: 'Full Stack' },
+    { id: 'frontend', label: 'Front-End' },
+]

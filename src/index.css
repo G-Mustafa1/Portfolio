@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+/* Dark Mode */
+@variant dark (&:where(.dark, .dark *));
+
+/* ===================================================== */
+/* THEME */
+/* ===================================================== */
+@theme {
+
+  /* ===================================================== */
+  /* PRIMARY SKY BLUE SYSTEM */
+  /* ===================================================== */
+
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  /* ===================================================== */
+  /* LIGHT NAVBAR / SOFT BLUE COLORS */
+  /* ===================================================== */
+
+  --color-navbar-light: #ffffffcc;
+  --color-navbar-dark: #020617cc;
+
+  --color-soft-blue-50: #f4faff;
+  --color-soft-blue-100: #eaf6ff;
+  --color-soft-blue-200: #d8efff;
+
+  /* ===================================================== */
+  /* ACCENT */
+  /* ===================================================== */
+
+  --color-accent-500: #38bdf8;
+
+  /* ===================================================== */
+  /* SLATE SYSTEM */
+  /* ===================================================== */
+
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  /* ===================================================== */
+  /* DARK BACKGROUND */
+  /* ===================================================== */
+
+  --color-dark-bg: #020617;
+
+  /* ===================================================== */
+  /* FONTS */
+  /* ===================================================== */
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  --font-mono: "Fira Code", monospace;
+}
+
+/* ===================================================== */
+/* BASE */
+/* ===================================================== */
+
+@layer base {
+
+  * {
+    @apply box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    @apply bg-slate-50 dark:bg-dark-bg;
+    @apply text-slate-900 dark:text-slate-200;
+
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-primary-500/20;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary-400/50 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-500/80;
+  }
+}
+
+/* ===================================================== */
+/* COMPONENTS */
+/* ===================================================== */
+
+@layer components {
+
+  /* ===================================================== */
+  /* CONTAINER */
+  /* ===================================================== */
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .section-padding {
+    @apply py-24 px-6 sm:px-10 lg:px-20;
+  }
+
+  /* ===================================================== */
+  /* NAVBAR */
+  /* ===================================================== */
+
+  .navbar-glass {
+    @apply backdrop-blur-xl;
+    @apply border-b border-slate-200/60 dark:border-slate-800;
+
+    background: var(--color-navbar-light);
+
+    box-shadow:
+      0 4px 30px rgba(15, 23, 42, 0.04);
+  }
+
+  .dark .navbar-glass {
+    background: var(--color-navbar-dark);
+
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  /* ===================================================== */
+  /* GLASS CARD */
+  /* ===================================================== */
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-slate-900/60;
+    @apply backdrop-blur-xl;
+    @apply border border-slate-200/60 dark:border-slate-800;
+    @apply rounded-2xl;
+    @apply shadow-sm;
+
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 10px 30px rgba(14, 165, 233, 0.08);
+  }
+
+  .dark .glass-card:hover {
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ===================================================== */
+  /* BUTTONS */
+  /* ===================================================== */
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl;
+    @apply bg-primary-500 hover:bg-primary-600;
+    @apply text-white font-semibold;
+    @apply border border-primary-500 hover:border-primary-600;
+
+    @apply flex items-center justify-center gap-2;
+
+    transition:
+      background-color 0.3s ease,
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      0 10px 25px rgba(14, 165, 233, 0.25);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl;
+
+    @apply bg-white dark:bg-slate-900;
+    @apply text-slate-800 dark:text-slate-200;
+
+    @apply border border-slate-200 dark:border-slate-700;
+
+    @apply font-semibold;
+    @apply flex items-center justify-center gap-2;
+
+    transition:
+      border-color 0.3s ease,
+      color 0.3s ease,
+      background-color 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    @apply border-primary-400;
+    @apply text-primary-500;
+    @apply bg-soft-blue-50 dark:bg-slate-800;
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.97);
+  }
+
+  /* ===================================================== */
+  /* TEXT */
+  /* ===================================================== */
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-primary-700;
+    @apply bg-clip-text text-transparent;
+  }
+
+  .section-title {
+    @apply text-4xl sm:text-5xl;
+    @apply font-extrabold;
+    @apply leading-tight tracking-tight;
+
+    @apply text-slate-900 dark:text-white;
+
+    @apply mb-5;
+  }
+
+  .section-subtitle {
+    @apply text-base sm:text-lg;
+    @apply leading-relaxed;
+    @apply max-w-2xl mx-auto;
+
+    @apply text-slate-600 dark:text-slate-400;
+  }
+
+  /* ===================================================== */
+  /* NAVIGATION */
+  /* ===================================================== */
+
+  .nav-link {
+    @apply relative;
+    @apply text-sm font-semibold;
+
+    @apply text-slate-600 dark:text-slate-400;
+
+    @apply hover:text-primary-500 dark:hover:text-primary-400;
+
+    @apply transition-all duration-300;
+  }
+
+  .nav-link::after {
+    content: '';
+
+    @apply absolute left-0 -bottom-1;
+    @apply w-0 h-0.5;
+
+    @apply bg-primary-500 rounded-full;
+
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .nav-link.active {
+    @apply text-primary-500 dark:text-primary-400;
+  }
+
+  .nav-link.active::after {
+    @apply w-full;
+  }
+
+  /* ===================================================== */
+  /* TECH PILLS */
+  /* ===================================================== */
+
+  .tech-pill {
+    @apply px-3 py-2 rounded-xl;
+
+    @apply bg-slate-100 dark:bg-slate-800;
+    @apply border border-slate-200 dark:border-slate-700;
+
+    @apply text-sm font-medium;
+    @apply text-slate-700 dark:text-slate-300;
+
+    @apply flex items-center gap-2;
+
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .tech-pill:hover {
+    @apply border-primary-400;
+    @apply bg-soft-blue-50 dark:bg-slate-700;
+
+    transform: translateY(-2px);
+  }
+
+  /* ===================================================== */
+  /* SOFT SHADOW */
+  /* ===================================================== */
+
+  .shadow-soft {
+    box-shadow:
+      0 4px 20px rgba(15, 23, 42, 0.06);
+  }
+
+  .dark .shadow-soft {
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ===================================================== */
+/* ANIMATIONS */
+/* ===================================================== */
+
+@keyframes blob {
+
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(25px, -40px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-15px, 15px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation:
+    blob 10s infinite alternate ease-in-out;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* ===================================================== */
+/* PREMIUM CARD */
+/* ===================================================== */
+
+.premium-card-hover {
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.premium-card-hover:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.dark .premium-card-hover:hover {
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4);
+}
