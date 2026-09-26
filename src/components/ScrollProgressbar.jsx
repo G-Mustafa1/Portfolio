@@ -18,8 +18,8 @@ const ScrollProgressBar = () => {
       }}
       className="
         fixed top-0 left-0 right-0
-        h-[3px]
-        z-[9999]
+        h-0.75
+        z-9999
         bg-primary-500
       "
     />

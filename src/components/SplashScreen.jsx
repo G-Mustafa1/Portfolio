@@ -51,17 +51,17 @@ export default function SplashScreen({ onFinish }) {
     <motion.div
       variants={containerVariants}
       exit="exit"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden transition-colors duration-500 ${
+      className={`fixed inset-0 z-9999 flex flex-col items-center justify-center overflow-hidden transition-colors duration-500 ${
         isDark ? 'bg-[#05070a]' : 'bg-white'
       }`}
     >
       {/* Background Subtle Gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-b from-primary-500/10 to-transparent pointer-events-none`} />
+      <div className={`absolute inset-0 bg-linear-to-b from-primary-500/10 to-transparent pointer-events-none`} />
       
       {/* Animated Lines for depth */}
       <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-        <div className={`absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
-        <div className={`absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
+        <div className={`absolute top-0 left-1/4 w-px h-full bg-linear-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
+        <div className={`absolute top-0 right-1/4 w-px h-full bg-linear-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
       </div>
 
       <div className="relative flex flex-col items-center">
@@ -72,7 +72,7 @@ export default function SplashScreen({ onFinish }) {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-8 relative"
         >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-2xl shadow-primary-500/20 rotate-12">
+          <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-2xl shadow-primary-500/20 rotate-12">
             <span className="text-3xl font-black text-white -rotate-12">GM</span>
           </div>
           {/* Pulsing ring around logo */}
@@ -107,7 +107,7 @@ export default function SplashScreen({ onFinish }) {
         </div>
 
         {/* Progress Bar Container */}
-        <div className={`w-48 h-[2px] ${isDark ? 'bg-white/5' : 'bg-gray-100'} rounded-full relative overflow-hidden mt-4`}>
+        <div className={`w-48 h-0.5 ${isDark ? 'bg-white/5' : 'bg-gray-100'} rounded-full relative overflow-hidden mt-4`}>
           <motion.div
             className="absolute inset-y-0 left-0 bg-primary-500"
             initial={{ width: 0 }}
