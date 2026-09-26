@@ -27,8 +27,8 @@ export function HeroAvatar() {
 
       {/* Main Avatar */}
       <div
-        className="relative w-full h-full rounded-full p-[5px]
-        bg-gradient-to-br from-primary-500  to-accent-500"
+        className="relative w-full h-full rounded-full p-1.25
+        bg-linear-to-br from-primary-500  to-accent-500"
       >
         <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-gray-900">
 

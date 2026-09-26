@@ -58,7 +58,7 @@ export default function Navbar() {
                     : 'bg-white/70 dark:bg-gray-800/70 border-transparent shadow-2xl'
                     }`}
             >
-                <div className="max-w-7xl mx-auto  px-6 md:px-[45px]">                    
+                <div className="max-w-7xl mx-auto  px-6 md:px-11.25">                    
                     <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <motion.a
@@ -68,7 +68,7 @@ export default function Navbar() {
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 group"
                     >
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500  to-accent-500 flex items-center justify-center shadow-md shadow-primary-500/30">
+                        <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500  to-accent-500 flex items-center justify-center shadow-md shadow-primary-500/30">
                             <HiCode className="text-white text-base" />
                         </div>
                         <span className="font-bold text-lg">
