@@ -280,7 +280,7 @@ export default function ContactForm() {
             flex items-center justify-center gap-3 transition-all duration-300
             ${sending
                                 ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-primary-500 to-accent-500 hover:to-accent-600 hover:from-primary-600 shadow-xl shadow-primary-500/20'
+                                : 'bg-linear-to-r from-primary-500 to-accent-500 hover:to-accent-600 hover:from-primary-600 shadow-xl shadow-primary-500/20'
                             }`}
                     >
                         {sending ? (

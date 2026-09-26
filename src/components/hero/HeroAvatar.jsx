@@ -12,7 +12,7 @@ export function HeroAvatar() {
       {/* Glow */}
       <div
         className="absolute inset-0 rounded-full
-        bg-gradient-to-br from-primary-500  to-accent-500
+        bg-linear-to-br from-primary-500  to-accent-500
         opacity-20 dark:opacity-30 blur-2xl scale-110"
       />
 
