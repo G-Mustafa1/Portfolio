@@ -59,7 +59,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1',
         live: 'https://bms-frontend-eight.vercel.app',
         category: 'fullstack',
-        image: 'bms.png',
+        image: 'bms.webp',
         featured: true,
     },
     {
@@ -71,7 +71,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1',
         live: 'https://meeting-mind-olive.vercel.app/',
         category: 'fullstack',
-        image: 'mm.png',
+        image: 'mm.webp',
         featured: true,
     },
     {
@@ -83,7 +83,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1/HealthMate-Web',
         live: 'https://health-mate-web.vercel.app/',
         category: 'fullstack',
-        image: 'hl.png',
+        image: 'hl.webp',
         featured: true,
     },
     {
@@ -95,7 +95,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1/Expence-Tracker',
         live: 'https://expence-tracker-psi-six.vercel.app/',
         category: 'fullstack',
-        image: 'ex.png',
+        image: 'ex.webp',
         featured: false,
     },
     {
@@ -107,7 +107,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1/Authentication-System',
         live: 'https://authentication-system-khaki.vercel.app/',
         category: 'fullstack',
-        image: 'at.png',
+        image: 'at.webp',
         featured: false,
     },
     {
@@ -119,7 +119,7 @@ export const PROJECTS = [
         github: 'https://github.com/G-Mustafa1/3D-Web-With-React',
         live: 'https://3d-web-with-react.vercel.app/',
         category: 'frontend',
-        image: 'st.png',
+        image: 'st.webp',
         featured: false,
     },
 ]

@@ -34,7 +34,7 @@ export function HeroAvatar() {
 
           {/* Image */}
           <img
-            src="/my-image.png"
+            src="/my-image.webp"
             alt="Ghulam Mustafa"
             className="w-full h-full object-cover rounded-full"
           />

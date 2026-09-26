@@ -43,8 +43,9 @@ export default function SplashScreen({ onFinish }) {
     }
   }
 
-  const name = "GHULAM MUSTAFA"
+  const name = "GHULAM MUSTAFA"  
   const letters = name.split("")
+  
 
   return (
     <motion.div

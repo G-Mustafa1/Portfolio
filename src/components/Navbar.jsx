@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
 import { useScrollSpy } from '../hooks/useScrollSpy'
+import { useTheme } from '../context/ThemeContext'
 import {
     HiSun,
     HiMoon,
