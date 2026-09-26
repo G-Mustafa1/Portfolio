@@ -112,7 +112,7 @@ export default function Navbar() {
                                 >
                                     {/* Hover Underline */}
                                     {!isActive && (
-                                        <span className="absolute -bottom-[2px] left-4 right-4 h-0.5 bg-gradient-to-r from-primary-500 to-purple-600 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                                        <span className="absolute -bottom-0.5 left-4 right-4 h-0.5 bg-linear-to-r from-primary-500 to-purple-600 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                                     )}
 
                                     <span className="relative z-10">
@@ -253,7 +253,7 @@ export default function Navbar() {
                             {/* Drawer header */}
                             <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                                    <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500 to-purple-600 flex items-center justify-center">
                                         <HiCode className="text-white text-base" />
                                     </div>
                                     <span className="font-bold text-lg gradient-text">Ghulam Mustafa</span>
