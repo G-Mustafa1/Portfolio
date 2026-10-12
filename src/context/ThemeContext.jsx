@@ -1,23 +1,24 @@
+// @refresh reset
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-const ThemeContext = createContext()
+const ThemeContext = createContext(null)
 
-export function ThemeProvider({ children }) {  
+export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(() => {
-    const storedTheme = localStorage.getItem('theme')
-
-    if (storedTheme === 'dark') return true
-    if (storedTheme === 'light') return false
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
+    try {
+      const storedTheme = localStorage.getItem('theme')
+      if (storedTheme === 'dark') return true
+      if (storedTheme === 'light') return false
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    } catch {
+      return false
+    }
   })
 
   useEffect(() => {
     const root = document.documentElement
-    const theme = isDark ? 'dark' : 'light'
-
     root.classList.toggle('dark', isDark)
-    localStorage.setItem('theme', theme)
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }, [isDark])
 
   const toggleTheme = () => {
@@ -31,6 +32,10 @@ export function ThemeProvider({ children }) {
   )
 }
 
-export function useTheme() {  
-  return useContext(ThemeContext)
-}
+export function useTheme() {
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
+}

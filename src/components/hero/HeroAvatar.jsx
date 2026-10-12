@@ -13,7 +13,7 @@ export function HeroAvatar() {
       <div
         className="absolute inset-0 rounded-full
         bg-linear-to-br from-primary-500  to-accent-500
-        opacity-20 dark:opacity-30 blur-2xl scale-110"
+        opacity-20 dark:opacity-30 blur-2xl scale-110 pointer-events-none transform-gpu"
       />
 
       {/* Rotating ring */}
@@ -22,7 +22,7 @@ export function HeroAvatar() {
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
         className="absolute -inset-3 rounded-full
         border-2 border-dashed
-        border-primary-300/40 dark:border-primary-700/40"
+        border-primary-300/40 dark:border-primary-700/40 transform-gpu will-change-transform"
       />
 
       {/* Main Avatar */}
@@ -54,10 +54,13 @@ export function HeroAvatar() {
           shadow-lg text-xs font-medium
           text-gray-700 dark:text-gray-300 whitespace-nowrap"
       >
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-        </span>
+        <div className="relative flex h-2 w-2">
+          <span
+            className="animate-ping absolute inline-flex h-full w-full
+              rounded-full bg-green-400 opacity-75"
+          />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+        </div>
 
         Open to Work
       </motion.div>

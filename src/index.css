@@ -91,7 +91,9 @@
     @apply bg-slate-50 dark:bg-dark-bg;
     @apply text-slate-900 dark:text-slate-200;
 
-    transition: none;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
   }
 
   h1,

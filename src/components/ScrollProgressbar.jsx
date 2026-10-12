@@ -4,16 +4,10 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 const ScrollProgressBar = () => {
   const { scrollYProgress } = useScroll()
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 25,
-    mass: 0.2,
-  })
-
   return (
     <motion.div
       style={{
-        scaleX: smoothProgress,
+        scaleX: scrollYProgress,
         transformOrigin: '0%',
       }}
       className="
@@ -21,6 +15,10 @@ const ScrollProgressBar = () => {
         h-0.75
         z-9999
         bg-primary-500
+        origin-left
+        transform-gpu
+        will-change-transform
+        pointer-events-none
       "
     />
   )

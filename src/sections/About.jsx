@@ -212,11 +212,10 @@ function TimelineItem({
       <div className="flex flex-col items-center">
         <div
           className={`w-3 h-3 rounded-full mt-1 ring-4
-          ${
-            current
+          ${current
               ? 'bg-primary-500 ring-primary-100 dark:ring-primary-900/50'
               : 'bg-gray-300 dark:bg-gray-600 ring-gray-100 dark:ring-gray-800'
-          }`}
+            }`}
         />
 
         <div className="w-0.5 flex-1 bg-gray-100 dark:bg-gray-800 mt-2" />
@@ -225,11 +224,10 @@ function TimelineItem({
       <div className="pb-6">
         <span
           className={`text-xs font-medium px-2 py-1 rounded-md inline-block mb-2
-          ${
-            current
+          ${current
               ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
               : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
-          }`}
+            }`}
         >
           {year}
         </span>
@@ -268,37 +266,39 @@ export default function About() {
       <div className="container-max">
 
         {/* Header */}
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
           <span
             className="inline-flex items-center gap-2
-            px-4 py-2 rounded-full
-            bg-primary-50 dark:bg-primary-900/30
-            border border-primary-200 dark:border-primary-800/50
-            text-primary-600 dark:text-primary-400
-            text-sm font-medium mb-4"
+    px-4 py-2 rounded-full
+    bg-primary-50 dark:bg-primary-900/30
+    border border-primary-200 dark:border-primary-800/50
+    text-primary-600 dark:text-primary-400
+    text-sm font-medium mb-4"
           >
             <HiCode className="text-base" />
             About Me
           </span>
 
           <h2 className="section-title">
-            Building Modern{' '}
+            Turning Ideas Into{' '}
             <span className="gradient-text">
-              Web Experiences
+              Web Applications
             </span>
           </h2>
 
           <p className="section-subtitle">
-            Passionate MERN Stack Developer focused on creating
-            responsive, scalable, and user-friendly applications.
+            I build modern, responsive web applications with the MERN stack,
+            focusing on clean code, smooth functionality, and a great user experience.
           </p>
         </motion.div>
+
 
         {/* Grid */}
         <div className="grid lg:grid-cols-5 gap-8">
@@ -307,22 +307,22 @@ export default function About() {
           <div className="lg:col-span-3 flex flex-col gap-8">
 
             {/* Bio */}
+
             <motion.div
               custom={0}
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               className="glass-card rounded-2xl p-6 sm:p-8"
             >
               <div className="flex items-center gap-4 mb-6">
-
                 <div
                   className="w-16 h-16 rounded-2xl
-                  bg-gradient-to-br from-primary-500  to-accent-500
-                  flex items-center justify-center
-                  text-white font-bold text-xl
-                  shadow-lg shadow-primary-500/20"
+      bg-gradient-to-br from-primary-500 to-accent-500
+      flex items-center justify-center
+      text-white font-bold text-xl
+      shadow-lg shadow-primary-500/20"
                 >
                   GM
                 </div>
@@ -344,37 +344,38 @@ export default function About() {
 
               <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed">
                 <p>
-                  I'm Ghulam Mustafa, a MERN Stack Developer
-                  focused on building modern, responsive,
-                  and user-friendly web applications using
-                  React, Next.js, Node.js, and MongoDB.
+                  I'm Ghulam Mustafa, a MERN Stack Developer who builds
+                  modern, responsive web applications with a focus on
+                  clean design, useful features, and a smooth user experience.
+                  I work with React, Next.js, Node.js, Express, and MongoDB.
                 </p>
 
                 <p>
-                  Currently training at SMIT Karachi,
-                  I enjoy creating clean UI experiences,
-                  scalable frontend architectures,
-                  and full-stack applications with
-                  modern technologies.
+                  I'm currently gaining hands-on experience through
+                  real-world projects and team collaboration. I enjoy
+                  learning new technologies, solving development problems,
+                  and turning ideas into working web applications.
                 </p>
               </div>
             </motion.div>
 
+
             {/* Highlights */}
+
             <div className="grid sm:grid-cols-3 gap-4">
 
               <HighlightCard
                 icon={HiCode}
                 title="Clean Code"
-                description="Building scalable and maintainable applications with modern development practices."
-                color="bg-gradient-to-br from-primary-500  to-accent-500"
+                description="Writing clean, organized code that's easy to understand, maintain, and improve."
+                color="bg-gradient-to-br from-primary-500 to-accent-500"
                 delay={1}
               />
 
               <HighlightCard
                 icon={HiLightningBolt}
                 title="Performance"
-                description="Focused on responsive design, optimization, and smooth user experiences."
+                description="Building responsive web applications that load smoothly and work well across devices."
                 color="bg-gradient-to-br from-orange-400 to-orange-500"
                 delay={2}
               />
@@ -382,11 +383,13 @@ export default function About() {
               <HighlightCard
                 icon={HiHeart}
                 title="UI & UX"
-                description="Passionate about crafting visually appealing and intuitive interfaces."
+                description="Creating clean, attractive interfaces that are easy and enjoyable to use."
                 color="bg-gradient-to-br from-pink-500 to-rose-500"
                 delay={3}
               />
+
             </div>
+
 
             {/* Social Cards */}
             <div className="grid sm:grid-cols-2 gap-4">
@@ -482,8 +485,7 @@ export default function About() {
               className="glass-card rounded-2xl p-6"
             >
               <h3
-                className="text-base font-bold
-                text-gray-800 dark:text-gray-100
+                className="text-base font-bold text-gray-800 dark:text-gray-100
                 mb-5 flex items-center gap-2"
               >
                 <HiAcademicCap className="text-primary-500" />

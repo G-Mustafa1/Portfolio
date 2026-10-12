@@ -86,14 +86,14 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden
       bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl
-      border-t border-gray-200/50 dark:border-white/10">
+      border-t border-gray-200/50 dark:border-slate-800">
 
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
         <div className="absolute -top-32 left-1/4 w-96 h-96
-          bg-primary-500/5 rounded-full blur-3xl" />
+          bg-primary-500/5 rounded-full blur-3xl transform-gpu" />
         <div className="absolute -top-32 right-1/4 w-80 h-80
-          bg-purple-500/5 rounded-full blur-3xl" />
+          bg-purple-500/5 rounded-full blur-3xl transform-gpu" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto  px-6 md:px-[45px]">
@@ -155,12 +155,13 @@ export default function Footer() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full
               bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50
               text-gray-600 dark:text-gray-300 text-xs font-bold w-fit">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full
-                  rounded-full bg-accent-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2
-                  bg-green-500" />
-              </span>
+              <div className="relative flex h-2 w-2">
+                <span
+                  className="animate-ping absolute inline-flex h-full w-full
+              rounded-full bg-green-400 opacity-75"
+                />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+              </div>
               AVAILABLE FOR NEW PROJECTS
             </div>
           </div>
@@ -256,6 +257,7 @@ export default function Footer() {
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             className="text-sm text-gray-500 font-medium"
           >
             © {year} <span className="text-gray-900 dark:text-gray-200">Ghulam Mustafa</span>. All rights reserved.

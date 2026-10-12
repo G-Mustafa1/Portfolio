@@ -9,7 +9,7 @@ export function FloatingBadge({ icon: Icon, label, color, className, delay = 0 }
       transition={{ delay, duration: 0.5, type: 'spring', bounce: 0.4 }}
       className={`absolute flex items-center gap-2 px-3 py-2 rounded-xl
         glass-card text-xs font-medium whitespace-nowrap
-        shadow-lg pointer-events-none select-none
+        shadow-lg pointer-events-none select-none will-change-transform transform-gpu
         ${className}`}
       style={{
         animation: `float ${3.5 + delay}s ease-in-out ${delay}s infinite`,

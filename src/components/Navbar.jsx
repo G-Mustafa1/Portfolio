@@ -58,168 +58,168 @@ export default function Navbar() {
                     : 'bg-white/70 dark:bg-gray-800/70 border-transparent shadow-2xl'
                     }`}
             >
-                <div className="max-w-7xl mx-auto  px-6 md:px-11.25">                    
+                <div className="max-w-7xl mx-auto  px-6 md:px-11.25">
                     <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <motion.a
-                        href="#hero"
-                        onClick={(e) => { e.preventDefault(); handleNavClick('#hero') }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-2 group"
-                    >
-                        <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500  to-accent-500 flex items-center justify-center shadow-md shadow-primary-500/30">
-                            <HiCode className="text-white text-base" />
-                        </div>
-                        <span className="font-bold text-lg">
-                            <span className="gradient-text">GM</span>
-                            <span className="text-gray-400 dark:text-gray-500 font-light ml-0.5">.</span>
-                        </span>
-                    </motion.a>
-
-                    {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-1">
-                        {NAV_LINKS.map((link, index) => {
-                            const sectionId = link.href.replace('#', '')
-                            const isActive = activeSection === sectionId
-
-                            return (
-                                <motion.a
-                                    key={link.href}
-                                    href={link.href}
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        handleNavClick(link.href)
-                                    }}
-
-                                    initial={{ opacity: 0, y: -30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{
-                                        delay: 0.6 + (index * 0.05),
-                                        duration: 0.4,
-                                        ease: "easeOut"
-                                    }}
-                                    whileHover={{
-                                        y: -2,
-                                        transition: { duration: 0.2 },
-                                    }}
-                                    whileTap={{ scale: 0.96 }}
-
-                                    className={`relative group px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
-                                        ? 'text-primary-600 dark:text-primary-400'
-                                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                                        }`}
-                                >
-                                    {/* Hover Underline */}
-                                    {!isActive && (
-                                        <span className="absolute -bottom-0.5 left-4 right-4 h-0.5 bg-linear-to-r from-primary-500 to-purple-600 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                                    )}
-
-                                    <span className="relative z-10">
-                                        {link.label}
-                                    </span>
-                                </motion.a>
-                            )
-                        })}
-                    </nav>
-
-                    {/* Right controls */}
-                    <div className="flex items-center gap-2">
-                        {/* Theme toggle */}
-                        <motion.button
-                            onClick={toggleTheme}
-
-                            initial={{ opacity: 0, y: -30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8, duration: 0.4 }}
-
-                            whileHover={{ scale: 1.08 }}
-                            whileTap={{ scale: 0.9, rotate: 15 }}
-
-                            aria-label="Toggle theme"
-                            className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200"
-                        >
-                            <AnimatePresence mode="wait">
-                                {isDark ? (
-                                    <motion.span
-                                        key="sun"
-
-                                        /* FIRST NAVBAR ICON ANIMATION */
-                                        initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-                                        animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                                        exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <HiSun className="text-amber-400 text-lg" />
-                                    </motion.span>
-                                ) : (
-                                    <motion.span
-                                        key="moon"
-
-                                        /* FIRST NAVBAR ICON ANIMATION */
-                                        initial={{ opacity: 0, rotate: 90, scale: 0.5 }}
-                                        animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                                        exit={{ opacity: 0, rotate: -90, scale: 0.5 }}
-
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <HiMoon className="text-primary-600 text-lg" />
-                                    </motion.span>
-                                )}
-                            </AnimatePresence>
-                        </motion.button>
-
-                        {/* Mobile menu button */}
-                        <motion.button
-                            onClick={() => setMenuOpen(prev => !prev)}
-
-                            initial={{ opacity: 0, y: -30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.9, duration: 0.4 }}
-
+                        {/* Logo */}
+                        <motion.a
+                            href="#hero"
+                            onClick={(e) => { e.preventDefault(); handleNavClick('#hero') }}
                             whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.9 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center gap-2 group"
+                        >
+                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500  to-accent-500 flex items-center justify-center shadow-md shadow-primary-500/30">
+                                <HiCode className="text-white text-base" />
+                            </div>
+                            <span className="font-bold text-lg">
+                                <span className="gradient-text">GM</span>
+                                <span className="text-gray-400 dark:text-gray-500 font-light ml-0.5">.</span>
+                            </span>
+                        </motion.a>
 
-                            aria-label="Toggle menu"
-                            className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center
+                        {/* Desktop Nav */}
+                        <nav className="hidden md:flex items-center gap-1">
+                            {NAV_LINKS.map((link, index) => {
+                                const sectionId = link.href.replace('#', '')
+                                const isActive = activeSection === sectionId
+
+                                return (
+                                    <motion.a
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            handleNavClick(link.href)
+                                        }}
+
+                                        initial={{ opacity: 0, y: -30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            delay: 0.6 + (index * 0.05),
+                                            duration: 0.4,
+                                            ease: "easeOut"
+                                        }}
+                                        whileHover={{
+                                            y: -2,
+                                            transition: { duration: 0.2 },
+                                        }}
+                                        whileTap={{ scale: 0.96 }}
+
+                                        className={`relative group px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
+                                            ? 'text-primary-600 dark:text-primary-400'
+                                            : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                                            }`}
+                                    >
+                                        {/* Hover Underline */}
+                                        {!isActive && (
+                                            <span className="absolute -bottom-0.5 left-4 right-4 h-0.5 bg-linear-to-r from-primary-500 to-accent-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                                        )}
+
+                                        <span className="relative z-10">
+                                            {link.label}
+                                        </span>
+                                    </motion.a>
+                                )
+                            })}
+                        </nav>
+
+                        {/* Right controls */}
+                        <div className="flex items-center gap-2">
+                            {/* Theme toggle */}
+                            <motion.button
+                                onClick={toggleTheme}
+
+                                initial={{ opacity: 0, y: -30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.4 }}
+
+                                whileHover={{ scale: 1.08 }}
+                                whileTap={{ scale: 0.9, rotate: 15 }}
+
+                                aria-label="Toggle theme"
+                                className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200"
+                            >
+                                <AnimatePresence mode="wait">
+                                    {isDark ? (
+                                        <motion.span
+                                            key="sun"
+
+                                            /* FIRST NAVBAR ICON ANIMATION */
+                                            initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                                            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                                            exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <HiSun className="text-amber-400 text-lg" />
+                                        </motion.span>
+                                    ) : (
+                                        <motion.span
+                                            key="moon"
+
+                                            /* FIRST NAVBAR ICON ANIMATION */
+                                            initial={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                                            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                                            exit={{ opacity: 0, rotate: -90, scale: 0.5 }}
+
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <HiMoon className="text-primary-600 text-lg" />
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+                            </motion.button>
+
+                            {/* Mobile menu button */}
+                            <motion.button
+                                onClick={() => setMenuOpen(prev => !prev)}
+
+                                initial={{ opacity: 0, y: -30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.9, duration: 0.4 }}
+
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.9 }}
+
+                                aria-label="Toggle menu"
+                                className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center
     bg-gray-100 dark:bg-gray-800
     text-gray-600 dark:text-gray-300
     hover:bg-gray-200 dark:hover:bg-gray-700
     transition-colors duration-200"
-                        >
-                            <AnimatePresence mode="wait">
-                                {menuOpen ? (
-                                    <motion.span
-                                        key="close"
+                            >
+                                <AnimatePresence mode="wait">
+                                    {menuOpen ? (
+                                        <motion.span
+                                            key="close"
 
-                                        /* FIRST NAVBAR ICON SWITCH ANIMATION */
-                                        initial={{ opacity: 0, rotate: -90 }}
-                                        animate={{ opacity: 1, rotate: 0 }}
-                                        exit={{ opacity: 0, rotate: 90 }}
+                                            /* FIRST NAVBAR ICON SWITCH ANIMATION */
+                                            initial={{ opacity: 0, rotate: -90 }}
+                                            animate={{ opacity: 1, rotate: 0 }}
+                                            exit={{ opacity: 0, rotate: 90 }}
 
-                                        transition={{ duration: 0.15 }}
-                                    >
-                                        <HiX className="text-lg" />
-                                    </motion.span>
-                                ) : (
-                                    <motion.span
-                                        key="menu"
+                                            transition={{ duration: 0.15 }}
+                                        >
+                                            <HiX className="text-lg" />
+                                        </motion.span>
+                                    ) : (
+                                        <motion.span
+                                            key="menu"
 
-                                        /* FIRST NAVBAR ICON SWITCH ANIMATION */
-                                        initial={{ opacity: 0, rotate: 90 }}
-                                        animate={{ opacity: 1, rotate: 0 }}
-                                        exit={{ opacity: 0, rotate: -90 }}
+                                            /* FIRST NAVBAR ICON SWITCH ANIMATION */
+                                            initial={{ opacity: 0, rotate: 90 }}
+                                            animate={{ opacity: 1, rotate: 0 }}
+                                            exit={{ opacity: 0, rotate: -90 }}
 
-                                        transition={{ duration: 0.15 }}
-                                    >
-                                        <HiMenuAlt3 className="text-lg" />
-                                    </motion.span>
-                                )}
-                            </AnimatePresence>
-                        </motion.button>
+                                            transition={{ duration: 0.15 }}
+                                        >
+                                            <HiMenuAlt3 className="text-lg" />
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+                            </motion.button>
+                        </div>
                     </div>
-                </div>
                 </div>
             </motion.header>
 
@@ -253,7 +253,7 @@ export default function Navbar() {
                             {/* Drawer header */}
                             <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                                    <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center">
                                         <HiCode className="text-white text-base" />
                                     </div>
                                     <span className="font-bold text-lg gradient-text">Ghulam Mustafa</span>

@@ -1,34 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  FaHtml5,
-  FaCss3Alt,
-  FaJs,
-  FaReact,
-  FaNodeJs,
-  FaGitAlt,
-  FaGithub,
-  FaNpm,
-  FaBootstrap,
-} from 'react-icons/fa'
-import {
-  SiMongodb,
-  SiExpress,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiTypescript,
-  SiRedux,
-  SiFirebase,
-  SiPostman,
-  SiVite,
-  SiVercel,
-  SiFigma,
-  SiJsonwebtokens,
-  SiSocketdotio,
-} from 'react-icons/si'
-import { HiCode, HiDatabase, HiCog, HiColorSwatch } from 'react-icons/hi'
-import { VscVscode } from "react-icons/vsc";
-
+import { HiCode} from 'react-icons/hi'
 import { CATEGORIES, SKILLS } from '../data/sikllsData'
 
 
@@ -63,8 +35,8 @@ function SkillCategory({ title, number, skills, delay }) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ amount: 0.2 }}
-      transition={{ duration: 0.6, delay }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.5, delay }}
       className="glass-card rounded-[2rem] p-8 flex flex-col gap-8 h-full"
     >
       <div className="flex items-start justify-between">
@@ -87,7 +59,8 @@ function SkillCategory({ title, number, skills, delay }) {
             key={skill.name}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: delay + (idx * 0.05) }}
+            viewport={{ once: true }}
+            transition={{ delay: Math.min(delay + (idx * 0.03), 0.5), duration: 0.3 }}
             className={`flex items-center gap-3 p-3 rounded-2xl border ${skill.border} bg-white dark:bg-gray-800/50 hover:shadow-sm transition-all group`}
           >
             <div className={`w-9 h-9 rounded-xl ${skill.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
@@ -117,16 +90,16 @@ export default function Skills() {
 
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
+      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
 
       <div className="container-max">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.1 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
@@ -206,7 +179,7 @@ export default function Skills() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-16 text-center"
         >

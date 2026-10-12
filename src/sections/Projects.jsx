@@ -66,16 +66,16 @@ function ProjectCard({ project, index }) {
 
   return (
     <motion.div
-      layout
+      layout="position"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ amount: 0.2 }}
-      transition={{ duration: 0.4, delay: index * 0.07, ease: 'easeOut' }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3), ease: 'easeOut' }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       className="group relative glass-card rounded-2xl overflow-hidden
-        hover:shadow-2xl transition-all duration-500
-        flex flex-col"
+        hover:shadow-2xl transition-all duration-300
+        flex flex-col transform-gpu"
     >
       {/* Card top — Project Image */}
       <div className="relative h-48 overflow-hidden group/img">
@@ -316,8 +316,8 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.1 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
@@ -342,8 +342,8 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-wrap justify-center gap-2 mb-10"
         >
           {FILTERS.map(f => {

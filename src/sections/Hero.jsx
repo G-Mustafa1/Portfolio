@@ -136,19 +136,22 @@ export default function Hero() {
             </motion.div>
 
             {/* Description */}
+
             <motion.p
               variants={itemVariants}
               className="text-gray-600 dark:text-gray-400 text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
             >
-              Passionate about crafting{' '}
+              I build{' '}
               <span className="text-primary-600 dark:text-primary-400 font-medium">
-                clean, scalable
+                modern, responsive web applications
               </span>{' '}
-              web applications with modern technologies. Based in{' '}
+              that look great, work smoothly, and deliver a better user experience.
+              Using the MERN stack, I turn ideas into functional web experiences
+              with clean code and attention to detail. Based in{' '}
               <span className="text-gray-800 dark:text-gray-200 font-medium">
                 Karachi, Pakistan
-              </span>{' '}
-              — building the web, one component at a time.
+              </span>
+              .
             </motion.p>
 
             {/* CTA Buttons */}
