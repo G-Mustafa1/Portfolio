@@ -150,7 +150,7 @@
   /* ===================================================== */
 
   .navbar-glass {
-    @apply backdrop-blur-xl;
+    @apply md:backdrop-blur-xl;
     @apply border-b border-slate-200/60 dark:border-slate-800;
 
     background: var(--color-navbar-light);
@@ -171,11 +171,14 @@
   /* ===================================================== */
 
   .glass-card {
-    @apply bg-white/80 dark:bg-slate-900/60;
-    @apply backdrop-blur-xl;
+    @apply bg-white/90 dark:bg-slate-900/80;
     @apply border border-slate-200/60 dark:border-slate-800;
     @apply rounded-2xl;
     @apply shadow-sm;
+
+    /* backdrop-blur only on desktop — mobile GPU mein bahut heavy hota hai */
+    @apply md:backdrop-blur-xl;
+    @apply md:bg-white/80 md:dark:bg-slate-900/60;
 
     transition:
       transform 0.3s ease,
@@ -380,8 +383,15 @@
 }
 
 .animate-blob {
-  animation:
-    blob 10s infinite alternate ease-in-out;
+  /* Mobile par blob animation disable — GPU/CPU dono save */
+  animation: none;
+}
+
+@media (min-width: 768px) {
+  .animate-blob {
+    animation:
+      blob 10s infinite alternate ease-in-out;
+  }
 }
 
 .animation-delay-2000 {

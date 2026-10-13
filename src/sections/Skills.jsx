@@ -90,8 +90,8 @@ export default function Skills() {
 
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
-      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
+      <div className="hidden md:block absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
+      <div className="hidden md:block absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
 
       <div className="container-max">
         {/* Section header */}

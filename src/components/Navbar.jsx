@@ -53,9 +53,9 @@ export default function Navbar() {
                 initial={{ y: -80, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all shadow-sm duration-500 border-b backdrop-blur-lg ${scrolled
-                    ? 'bg-white/70 dark:bg-gray-950/70 border-gray-200/50 dark:border-white/10 shadow-lg shadow-black/5'
-                    : 'bg-white/70 dark:bg-gray-800/70 border-transparent shadow-2xl'
+                className={`fixed top-0 left-0 right-0 z-50 transition-all shadow-sm duration-500 border-b ${scrolled
+                    ? 'bg-white/95 dark:bg-gray-950/95 md:bg-white/70 md:dark:bg-gray-950/70 md:backdrop-blur-lg border-gray-200/50 dark:border-white/10 shadow-lg shadow-black/5'
+                    : 'bg-white/95 dark:bg-gray-800/95 md:bg-white/70 md:dark:bg-gray-800/70 md:backdrop-blur-lg border-transparent shadow-2xl'
                     }`}
             >
                 <div className="max-w-7xl mx-auto  px-6 md:px-11.25">
@@ -235,7 +235,7 @@ export default function Navbar() {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
                             onClick={() => setMenuOpen(false)}
-                            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 z-40 bg-black/50 md:hidden"
                         />
 
                         {/* Drawer */}
