@@ -63,7 +63,7 @@ function ScrollTopButton() {
       whileTap={{ scale: 0.95 }}
       aria-label="Scroll to top"
       className="w-10 h-10 rounded-xl
-        bg-gradient-to-br from-primary-500 to-accent-500
+        bg-linear-to-br from-primary-500 to-accent-500
         text-white flex items-center justify-center
         shadow-lg shadow-primary-500/30
         hover:shadow-xl hover:shadow-primary-500/40
@@ -89,14 +89,14 @@ export default function Footer() {
       border-t border-gray-200/50 dark:border-slate-800">
 
       {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-32 left-1/4 w-96 h-96
           bg-primary-500/5 rounded-full blur-3xl transform-gpu" />
         <div className="absolute -top-32 right-1/4 w-80 h-80
           bg-purple-500/5 rounded-full blur-3xl transform-gpu" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto  px-6 md:px-[45px]">
+      <div className="relative z-10 max-w-7xl mx-auto  px-6 md:px-11.25">
 
         {/* ── Top section ── */}
         <div className="py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -106,7 +106,7 @@ export default function Footer() {
             {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl
-                bg-gradient-to-br from-primary-500 to-accent-500
+                bg-linear-to-br from-primary-500 to-accent-500
                 flex items-center justify-center
                 shadow-lg shadow-primary-500/30">
                 <HiCode className="text-white text-lg" />
@@ -171,7 +171,7 @@ export default function Footer() {
             <h4 className="text-gray-900 dark:text-white font-bold text-sm mb-5 uppercase tracking-widest
               flex items-center gap-2">
               <span className="w-1.5 h-4 rounded-full
-                bg-gradient-to-b from-primary-500 to-accent-500 inline-block" />
+                bg-linear-to-b from-primary-500 to-accent-500 inline-block" />
               Quick Links
             </h4>
             <ul className="flex flex-col gap-2.5">

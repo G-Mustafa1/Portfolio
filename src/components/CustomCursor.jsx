@@ -43,8 +43,8 @@ const CustomCursor = () => {
     <>
       {/* MAIN DOT */}
       <motion.div
-        className="fixed top-0 left-0 w-3 h-3 rounded-full pointer-events-none z-[9999]
-        bg-gradient-to-br from-primary-500 to-accent-500 dark:from-primary-500"
+        className="fixed top-0 left-0 w-3 h-3 rounded-full pointer-events-none z-9999
+        bg-linear-to-br from-primary-500 to-accent-500 dark:from-primary-500"
         animate={{
           x: mousePos.x - 6,
           y: mousePos.y - 6,
@@ -55,7 +55,7 @@ const CustomCursor = () => {
 
       {/* OUTER RING */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-[9998]
+        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-9998
         border border-gray-400/40 dark:border-slate-500/50"
         animate={{
           x: mousePos.x - 16,
