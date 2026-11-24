@@ -22,12 +22,13 @@
 <br />
 
 <!-- Developer Profile -->
-<img src="./public/my-image.webp" alt="Ghulam Mustafa Profile" width="120" style="border-radius: 50%; border: 3px solid #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);" />
+<!-- <img src="./public/my-image.webp" alt="Ghulam Mustafa Profile" width="120" style="border-radius: 50%; border: 3px solid #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);" /> -->
 
 <h3>Ghulam Mustafa</h3>
 <p>
   <strong>Full Stack Developer (MERN)</strong> based in Karachi, Sindh, Pakistan<br />
-  ✉️ <a href="mailto:gmustufa1255@gmail.com">gmustufa1255@gmail.com</a> &nbsp;|&nbsp; 🌐 <a href="https://github.com/G-Mustafa1">GitHub</a> &nbsp;|&nbsp; 💼 <a href="https://www.linkedin.com/in/ghulam-mustufa">LinkedIn</a> &nbsp;|&nbsp; 📱 <a href="https://wa.me/923158965825">WhatsApp</a>
+  ✉️ <a href="mailto:gmustufa1255@gmail.com">gmustufa1255@gmail.com</a> &nbsp;|&nbsp; 🌐 <a href="https://github.com/G-Mustafa1">GitHub</a> &nbsp;|&nbsp; 💼 <a href="https://www.linkedin.com/in/ghulam-mustufa">LinkedIn</a> &nbsp;
+  <!-- |&nbsp; 📱 <a href="https://wa.me/923158965825">WhatsApp</a> -->
 </p>
 
 </div>
