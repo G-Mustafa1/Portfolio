@@ -1,6 +1,4 @@
 import {
-    FaGithub,
-    FaExternalLinkAlt,
     FaReact,
     FaNodeJs,
     FaHtml5,
@@ -20,15 +18,6 @@ import {
     SiThreedotjs,
     SiFramer,
 } from 'react-icons/si'
-
-import {
-    HiCode,
-    HiFilter,
-    HiStar,
-    HiEye,
-    HiExternalLink,
-    HiSparkles,
-} from 'react-icons/hi'
 
 
 export const TECH_ICONS = {

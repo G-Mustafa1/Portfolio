@@ -1,189 +1,218 @@
+
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { HiCode} from 'react-icons/hi'
-import { CATEGORIES, SKILLS } from '../data/sikllsData'
+import { motion } from 'framer-motion'
+import { CATEGORIES, SKILLS, LEARNING_NOW } from '../data/sikllsData'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+      delay: i * 0.08,
+    },
+  }),
+}
+
+const viewport = { once: true, amount: 0.15 }
 
 
-
-// ── Skill Card Component (Used for filtered view)
-function SkillItem({ skill, delay }) {
+function SkillCard({ children, className = '', index = 0 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9, y: 10 }}
-      transition={{ duration: 0.3, delay }}
-      whileHover={{ y: -3, x: 2, transition: { duration: 0.2 } }}
-      className={`flex items-center gap-3 p-4 rounded-2xl border ${skill.border} bg-white dark:bg-gray-800/50 hover:shadow-md transition-all group`}
+      custom={index}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      className={`glass-card group relative overflow-hidden p-6 sm:p-7 ${className}`}
     >
-      <div className={`w-12 h-12 rounded-xl ${skill.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
-        <skill.icon className={`text-2xl ${skill.color}`} />
-      </div>
-      <div className="flex flex-col">
-        <span className="text-sm font-bold text-gray-800 dark:text-gray-100">
-          {skill.name}
-        </span>
-        <span className="text-[10px] text-gray-500 uppercase tracking-tight capitalize">{skill.category}</span>
+      <div className="relative z-10">
+        {children}
       </div>
     </motion.div>
   )
 }
 
-// ── Skill Category Column (Used for 'All' view) 
-function SkillCategory({ title, number, skills, delay }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.5, delay }}
-      className="glass-card rounded-[2rem] p-8 flex flex-col gap-8 h-full"
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <span className="text-primary-500 font-mono text-sm font-bold tracking-widest block mb-2">
-            {number}
-          </span>
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-            {title}
-          </h3>
-        </div>
-        <span className="px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-bold">
-          {skills.length}
-        </span>
-      </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {skills.map((skill, idx) => (
-          <motion.div
-            key={skill.name}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: Math.min(delay + (idx * 0.03), 0.5), duration: 0.3 }}
-            className={`flex items-center gap-3 p-3 rounded-2xl border ${skill.border} bg-white dark:bg-gray-800/50 hover:shadow-sm transition-all group`}
-          >
-            <div className={`w-9 h-9 rounded-xl ${skill.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
-              <skill.icon className={`text-lg ${skill.color}`} />
-            </div>
-            <span className="text-[11px] font-bold text-gray-700 dark:text-gray-200 truncate">
-              {skill.name}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
+function SkillChip({ skill }) {
+  const Icon = skill.icon
+
+  return (
+    <li className="tech-pill group/chip cursor-default transition-all duration-300 hover:border-[var(--accent)] hover:bg-[var(--surface-elevated)]">
+      <Icon
+        aria-hidden="true"
+        className="shrink-0 text-base transition-transform duration-200 group-hover/chip:scale-110"
+        style={{ color: skill.color }}
+      />
+      <span>{skill.name}</span>
+    </li>
   )
 }
 
-// ── Main Skills ────────────────────────────────────────────────────────────
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState('all')
-
-  const frontendSkills = SKILLS.filter(s => s.category === 'frontend')
-  const backendSkills = SKILLS.filter(s => s.category === 'backend')
-  const toolsSkills = SKILLS.filter(s => s.category === 'tools')
-
-  const filteredSkills = activeCategory === 'all'
-    ? SKILLS
-    : SKILLS.filter(s => s.category === activeCategory)
+  const [active, setActive] = useState(
+    CATEGORIES[0]?.id || ''
+  )
 
   return (
-    <section id="skills" className="section-padding relative overflow-hidden">
-      <div className="hidden md:block absolute top-1/4 -right-20 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
-      <div className="hidden md:block absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10 pointer-events-none transform-gpu" />
-
+    <section id="skills" className="section-padding">
       <div className="container-max">
-        {/* Section header */}
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mb-10 sm:mb-14"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
-            bg-primary-50 dark:bg-primary-900/30
-            border border-primary-200 dark:border-primary-800/50
-            text-primary-600 dark:text-primary-400
-            text-sm font-bold mb-4">
-            <HiCode className="text-base" />
-            Abilities
-          </span>
-          <h2 className="section-title">
-            My <span className="gradient-text">Tech Stack</span>
+          <span className="section-eyebrow">Skills</span>
+
+          <h2 className="section-title max-w-2xl">
+            The tools I use to build full-stack applications.
           </h2>
         </motion.div>
 
-        {/* Category filter tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {CATEGORIES.map(cat => {
-            const isActive = activeCategory === cat.id
+        {/* Mobile tabs */}
+        <div
+          role="tablist"
+          aria-label="Skill categories"
+          className="mb-6 flex border-b border-[var(--border)] lg:hidden"
+        >
+          {CATEGORIES.map((cat) => {
+            const isActive = active === cat.id
+
+            const count = SKILLS.filter(
+              (s) => s.category === cat.id
+            ).length
+
             return (
-              <motion.button
+              <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                whileHover={{ y: -1 }}
-                whileTap={{ scale: 0.96 }}
-                className={`relative flex items-center gap-2 px-6 py-3 rounded-2xl
-                  text-sm font-bold transition-all duration-300 overflow-hidden
-                  ${isActive
-                    ? 'text-white shadow-lg shadow-primary-500/25'
-                    : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                id={`skill-tab-${cat.id}`}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`skill-panel-${cat.id}`}
+                onClick={() => setActive(cat.id)}
+                className={`relative flex-1 py-3 text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] ${isActive
+                  ? 'text-[var(--text-primary)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
               >
+                {cat.label}
+
+                <span className="ml-1.5 font-mono text-[11px] text-[var(--text-muted)]">
+                  {count}
+                </span>
+
                 {isActive && (
                   <motion.span
-                    layoutId="tab-bg"
-                    className="absolute inset-0 bg-gradient-to-br from-primary-500  to-accent-500 -z-0"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+                    layoutId="skill-tab-indicator"
+                    className="absolute inset-x-0 -bottom-px h-px bg-[var(--accent)]"
                   />
                 )}
-                <cat.icon className={`text-base relative z-10 ${isActive ? 'text-white' : ''}`} />
-                <span className="relative z-10">{cat.label}</span>
-              </motion.button>
+              </button>
             )
           })}
         </div>
 
-        {/* Dynamic Content */}
-        <AnimatePresence mode="wait">
-          {activeCategory === 'all' ? (
-            <motion.div
-              key="all-view"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              <SkillCategory title="Frontend" number="0 1" skills={frontendSkills} delay={0.1} />
-              <SkillCategory title="Backend" number="0 2" skills={backendSkills} delay={0.2} />
-              <SkillCategory title="Tools" number="0 3" skills={toolsSkills} delay={0.3} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="filtered-view"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-            >
-              {filteredSkills.map((skill, i) => (
-                <SkillItem key={skill.name} skill={skill} delay={i * 0.05} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
 
-        {/* Bottom decoration */}
+        {/* Skill categories */}
+        <div className="grid items-stretch gap-4 lg:grid-cols-3">
+          {CATEGORIES.map((cat, i) => {
+            const items = SKILLS.filter(
+              (skill) => skill.category === cat.id
+            )
+
+            const isActive = active === cat.id
+
+            return (
+              <SkillCard
+                key={cat.id}
+                index={i}
+                className={`${isActive ? 'block' : 'hidden'} lg:block`}
+              >
+                {/* Card header */}
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-[var(--accent)]">
+                      0{i + 1}
+                    </span>
+
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+                      {cat.label}
+                    </h3>
+                  </div>
+
+                  <span className="font-mono text-xs text-[var(--text-muted)]">
+                    {String(items.length).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <div className="mb-5 h-px bg-[var(--border)]" />
+
+                {/* Desktop: show all skills, Mobile: show active category */}
+                <ul
+                  className="flex flex-wrap gap-2"
+                  aria-label={`${cat.label} skills`}
+                >
+                  {items.map((skill) => (
+                    <SkillChip key={skill.name} skill={skill} />
+                  ))}
+                </ul>
+              </SkillCard>
+            )
+          })}
+        </div>
+
+
+        {/* Currently learning */}
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 text-center"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="glass-card mt-5 p-6 sm:p-7"
         >
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
+            {/* Section heading */}
+            <div className="shrink-0">
+              <h3 className="text-base font-semibold text-[var(--text-primary)]">
+                Currently Learning
+              </h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
+                Technologies I'm currently exploring.
+              </p>
+            </div>
+
+            {/* Technologies */}
+            <ul className="flex flex-wrap gap-2">
+              {LEARNING_NOW.map((item) => {
+                const Icon = item.icon
+
+                return (
+                  <li
+                    key={item.name}
+                    className="tech-pill transition-colors duration-200 hover:border-[var(--accent)]"
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="text-base"
+                      style={{ color: item.color || 'var(--accent)' }}
+                    />
+                    <span>{item.name}</span>
+                  </li>
+                )
+              })}
+            </ul>
+
+          </div>
         </motion.div>
       </div>
     </section>

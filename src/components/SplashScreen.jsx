@@ -1,147 +1,88 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
+import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+
+const PROGRESS_SECONDS = 0.9
 
 export default function SplashScreen({ onFinish }) {
-  const { isDark } = useTheme()
-  const [progress, setProgress] = useState(0)
-  const [isComplete, setIsComplete] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const finishRef = useRef(onFinish)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(timer)
-          setTimeout(() => setIsComplete(true), 500)
-          return 100
-        }
-        const diff = Math.random() * 15
-        return Math.min(prev + diff, 100)
-      })
-    }, 80)
-
-    return () => clearInterval(timer)
-  }, [])
+    finishRef.current = onFinish
+  }, [onFinish])
 
   useEffect(() => {
-    if (isComplete) {
-      const timeout = setTimeout(() => {
-        onFinish()
-      }, 800)
-      return () => clearTimeout(timeout)
-    }
-  }, [isComplete, onFinish])
-
-  const containerVariants = {
-    exit: {
-      y: "-100%",
-      transition: {
-        duration: 0.8,
-        ease: [0.76, 0, 0.24, 1],
-        delay: 0.1
-      }
-    }
-  }
-
-  const name = "GHULAM MUSTAFA"  
-  const letters = name.split("")
-  
+    const delay = reduceMotion ? 300 : PROGRESS_SECONDS * 1000 + 300
+    const timer = setTimeout(() => finishRef.current?.(), delay)
+    return () => clearTimeout(timer)
+  }, [reduceMotion])
 
   return (
     <motion.div
-      variants={containerVariants}
-      exit="exit"
-      className={`fixed inset-0 z-9999 flex flex-col items-center justify-center overflow-hidden transition-colors duration-500 ${
-        isDark ? 'bg-[#05070a]' : 'bg-white'
-      }`}
+      role="status"
+      aria-label="Loading portfolio"
+      exit={
+        reduceMotion
+          ? { opacity: 0, transition: { duration: 0.2 } }
+          : {
+              y: '-100%',
+              transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
+            }
+      }
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[var(--page-bg)]"
     >
-      {/* Background Subtle Gradient */}
-      <div className={`absolute inset-0 bg-linear-to-b from-primary-500/10 to-transparent pointer-events-none`} />
-      
-      {/* Animated Lines for depth */}
-      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-        <div className={`absolute top-0 left-1/4 w-px h-full bg-linear-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
-        <div className={`absolute top-0 right-1/4 w-px h-full bg-linear-to-b from-transparent ${isDark ? 'via-primary-500/20' : 'via-primary-500/40'} to-transparent`} />
-      </div>
+      {/* Halka accent glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(50% 40% at 50% 45%, color-mix(in srgb, var(--accent) 10%, transparent), transparent)',
+        }}
+      />
 
-      <div className="relative flex flex-col items-center">
-        {/* Modern Logo/Initial */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
+      <div className="relative flex flex-col items-center px-6 text-center">
+        <motion.span
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-8 relative"
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex h-14 w-14 items-center justify-center rounded-xl bg-[var(--accent)] font-mono text-xl font-semibold text-[var(--accent-contrast)]"
         >
-          <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-2xl shadow-primary-500/20 rotate-12">
-            <span className="text-3xl font-black text-white -rotate-12">GM</span>
-          </div>
-          {/* Pulsing ring around logo */}
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 rounded-2xl border-2 border-primary-500/30 -m-2"
-          />
-        </motion.div>
+          GM
+        </motion.span>
 
-        {/* Text Reveal */}
-        <div className="overflow-hidden mb-4">
-          <div className="flex gap-[0.2em]">
-            {letters.map((letter, i) => (
-              <motion.span
-                key={i}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  ease: [0.33, 1, 0.68, 1],
-                  delay: 0.1 + (i * 0.03)
-                }}
-                className={`text-2xl md:text-4xl font-bold tracking-tighter ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                } ${letter === " " ? "w-4" : ""}`}
-              >
-                {letter}
-              </motion.span>
-            ))}
-          </div>
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+          className="mt-6 text-2xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-3xl"
+        >
+          Ghulam Mustafa
+        </motion.p>
 
-        {/* Progress Bar Container */}
-        <div className={`w-48 h-0.5 ${isDark ? 'bg-white/5' : 'bg-gray-100'} rounded-full relative overflow-hidden mt-4`}>
-          <motion.div
-            className="absolute inset-y-0 left-0 bg-primary-500"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.1 }}
-          />
-        </div>
-
-        {/* Loading text */}
-        <motion.div
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-4 flex items-center gap-2"
+          transition={{ duration: 0.45, delay: 0.3 }}
+          className="mt-2 font-mono text-xs text-[var(--text-muted)]"
         >
-          <span className="text-[10px] font-mono tracking-[0.3em] text-gray-500 uppercase">
-            Initializing
-          </span>
-          <span className="text-[10px] font-mono text-primary-500 font-bold">
-            {Math.round(progress)}%
-          </span>
-        </motion.div>
-      </div>
+          Full Stack Developer
+        </motion.p>
 
-      {/* Decorative Bottom Text */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-10 left-10 flex flex-col gap-1"
-      >
-        <span className={`text-[8px] font-mono tracking-widest uppercase ${isDark ? 'text-white' : 'text-gray-900'}`}>Portfolio v2.0</span>
-        <span className={`text-[8px] font-mono tracking-widest uppercase ${isDark ? 'text-white' : 'text-gray-900'}`}>System Status: Optimal</span>
-      </motion.div>
+        {/* Progress line */}
+        <div className="mt-8 h-px w-40 overflow-hidden bg-[var(--border)]">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{
+              duration: reduceMotion ? 0 : PROGRESS_SECONDS,
+              ease: [0.4, 0, 0.2, 1],
+              delay: 0.1,
+            }}
+            className="h-full origin-left bg-[var(--accent)]"
+          />
+        </div>
+      </div>
     </motion.div>
   )
 }

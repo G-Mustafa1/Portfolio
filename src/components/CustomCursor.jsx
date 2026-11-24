@@ -1,72 +1,107 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
 
-const CustomCursor = () => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 })
-  const [isHovering, setIsHovering] = useState(false)
+const INTERACTIVE = 'a, button, [role="button"], label, summary, .hover-trigger'
+const TEXT_INPUT =
+  'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea, select'
 
+const RING_IDLE = 'border-[color-mix(in_srgb,var(--text-muted)_55%,transparent)]'
+const RING_ACTIVE =
+  'border-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]'
+
+export default function CustomCursor() {
+  const reduceMotion = useReducedMotion()
+
+  const [enabled, setEnabled] = useState(false)
+  const [hovering, setHovering] = useState(false)
+  const [pressed, setPressed] = useState(false)
+  const [overText, setOverText] = useState(false)
+  const [outside, setOutside] = useState(true)
+
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const ringX = useSpring(x, { damping: 28, stiffness: 220, mass: 0.6 })
+  const ringY = useSpring(y, { damping: 28, stiffness: 220, mass: 0.6 })
+
+  // Only enable on fine pointer devices (desktop mouse)
   useEffect(() => {
-    // Disable on touch devices and small screens to save battery and boost mobile performance
-    const isTouch = !window.matchMedia('(pointer: fine)').matches || window.innerWidth < 768
-    if (isTouch) return
-
-    setIsVisible(true)
-
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-    }
-
-    const handleHoverStart = () => setIsHovering(true)
-    const handleHoverEnd = () => setIsHovering(false)
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-
-    const interactiveElements = document.querySelectorAll('button, a, .hover-trigger')
-    interactiveElements.forEach((el) => {
-      el.addEventListener('mouseenter', handleHoverStart)
-      el.addEventListener('mouseleave', handleHoverEnd)
-    })
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      interactiveElements.forEach((el) => {
-        el.removeEventListener('mouseenter', handleHoverStart)
-        el.removeEventListener('mouseleave', handleHoverEnd)
-      })
-    }
+    const query = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setEnabled(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
   }, [])
 
-  if (!isVisible) return null
+  useEffect(() => {
+    if (!enabled) return undefined
+
+    const root = document.documentElement
+    root.classList.add('has-custom-cursor')
+
+    const onMove = (e) => {
+      x.set(e.clientX)
+      y.set(e.clientY)
+      setOutside(false)
+    }
+
+    const onOver = (e) => {
+      const target = e.target
+      if (!(target instanceof Element)) return
+      setOverText(Boolean(target.closest(TEXT_INPUT)))
+      setHovering(Boolean(target.closest(INTERACTIVE)))
+    }
+
+    const onDown = () => setPressed(true)
+    const onUp = () => setPressed(false)
+    const onLeave = () => setOutside(true)
+
+    window.addEventListener('mousemove', onMove, { passive: true })
+    document.addEventListener('mouseover', onOver, { passive: true })
+    window.addEventListener('mousedown', onDown)
+    window.addEventListener('mouseup', onUp)
+    root.addEventListener('mouseleave', onLeave)
+
+    return () => {
+      root.classList.remove('has-custom-cursor')
+      window.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseover', onOver)
+      window.removeEventListener('mousedown', onDown)
+      window.removeEventListener('mouseup', onUp)
+      root.removeEventListener('mouseleave', onLeave)
+    }
+  }, [enabled, x, y])
+
+  if (!enabled) return null
+
+  const invisible = outside || overText
 
   return (
     <>
-      {/* MAIN DOT */}
+      {/* Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-3 h-3 rounded-full pointer-events-none z-9999
-        bg-linear-to-br from-primary-500 to-accent-500 dark:from-primary-500"
-        animate={{
-          x: mousePos.x - 6,
-          y: mousePos.y - 6,
-          scale: isHovering ? 1.2 : 1,
-        }}
-        transition={{ type: 'spring', damping: 30, stiffness: 250, mass: 0.5 }}
+        aria-hidden="true"
+        style={{ x, y }}
+        animate={{ opacity: invisible ? 0 : 1, scale: hovering ? 0.5 : 1 }}
+        transition={{ duration: 0.15 }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] -ml-1 -mt-1 h-2 w-2 rounded-full bg-[var(--accent)]"
       />
 
-      {/* OUTER RING */}
+      {/* Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-9998
-        border border-gray-400/40 dark:border-slate-500/50"
+        aria-hidden="true"
+        style={{ x: reduceMotion ? x : ringX, y: reduceMotion ? y : ringY }}
         animate={{
-          x: mousePos.x - 16,
-          y: mousePos.y - 16,
-          scale: isHovering ? 1.3 : 1,
-          opacity: isHovering ? 0.8 : 0.5,
+          opacity: invisible ? 0 : 1,
+          scale: pressed ? 0.85 : hovering ? 1.6 : 1,
         }}
-        transition={{ type: 'spring', damping: 20, stiffness: 150, mass: 0.8 }}
+        transition={{
+          opacity: { duration: 0.15 },
+          scale: { type: 'spring', stiffness: 300, damping: 22 },
+        }}
+        className={`pointer-events-none fixed left-0 top-0 z-[9998] -ml-[18px] -mt-[18px] h-9 w-9 rounded-full border transition-[border-color,background-color] duration-200 ${
+          hovering ? RING_ACTIVE : RING_IDLE
+        }`}
       />
     </>
   )
 }
-
-export default CustomCursor

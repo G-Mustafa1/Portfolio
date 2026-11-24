@@ -1,36 +1,41 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export function useTypewriter(words, speed = 80, pause = 1800) {
-  const [displayed, setDisplayed] = useState('')
-  const [wordIdx, setWordIdx] = useState(0)
-  const [charIdx, setCharIdx] = useState(0)
+export function useTypewriter(words, typeSpeed = 75, pause = 2000, deleteSpeed = 40) {
+  const [text, setText] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      return words?.[0] || ''
+    }
+    return ''
+  })
+  const [index, setIndex] = useState(0)
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    const current = words[wordIdx]
+    if (!words?.length) return undefined
 
-    const timeout = setTimeout(() => {
-      if (!deleting) {
-        setDisplayed(current.slice(0, charIdx + 1))
-        if (charIdx + 1 === current.length) {
-          setTimeout(() => setDeleting(true), pause)
-        } else {
-          setCharIdx(c => c + 1)
-        }
-      } else {
-        setDisplayed(current.slice(0, charIdx - 1))
-        if (charIdx - 1 === 0) {
-          setDeleting(false)
-          setWordIdx(w => (w + 1) % words.length)
-          setCharIdx(0)
-        } else {
-          setCharIdx(c => c - 1)
-        }
-      }
-    }, deleting ? speed / 2 : speed)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
+    const current = words[index % words.length]
+    let timeout
+
+    if (!deleting && text === current) {
+      timeout = setTimeout(() => setDeleting(true), pause)
+    } else if (deleting && text === '') {
+      timeout = setTimeout(() => {
+        setDeleting(false)
+        setIndex((i) => (i + 1) % words.length)
+      }, 300)
+    } else {
+      timeout = setTimeout(
+        () => setText(current.slice(0, text.length + (deleting ? -1 : 1))),
+        deleting ? deleteSpeed : typeSpeed
+      )
+    }
 
     return () => clearTimeout(timeout)
-  }, [charIdx, deleting, wordIdx, words, speed, pause])
+  }, [text, deleting, index, words, typeSpeed, pause, deleteSpeed])
 
-  return displayed
+  return text
 }

@@ -1,27 +1,21 @@
-import React from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion'
 
-const ScrollProgressBar = () => {
+export default function ScrollProgressBar() {
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 28,
+    restDelta: 0.001,
+  })
+
+  if (reduceMotion) return null
 
   return (
     <motion.div
-      style={{
-        scaleX: scrollYProgress,
-        transformOrigin: '0%',
-      }}
-      className="
-        fixed top-0 left-0 right-0
-        h-0.75
-        z-9999
-        bg-primary-500
-        origin-left
-        transform-gpu
-        will-change-transform
-        pointer-events-none
-      "
+      aria-hidden="true"
+      style={{ scaleX }}
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-[var(--accent)]"
     />
   )
 }
-
-export default ScrollProgressBar

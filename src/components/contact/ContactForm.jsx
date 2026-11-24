@@ -1,300 +1,262 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-
-import {
-    HiMail,
-    HiPaperAirplane,
-    HiXCircle,
-    HiCode,
-    HiChat,
-} from 'react-icons/hi'
-
+import { useRef, useState } from 'react'
+import { HiPaperAirplane, HiXCircle } from 'react-icons/hi'
 import toast from 'react-hot-toast'
 
 import { sendEmail } from '../../utils/email'
 
-export default function ContactForm() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-    })
+const INITIAL = { name: '', email: '', subject: '', message: '' }
+const FIELD_ORDER = ['name', 'email', 'subject', 'message']
+const MIN_MESSAGE = 20
 
-    const [errors, setErrors] = useState({})
-    const [sending, setSending] = useState(false)
+function validate(data) {
+    const errors = {}
 
-    // Handle Change
-    const handleChange = (e) => {
-        const { name, value } = e.target
+    if (!data.name.trim()) errors.name = 'Name is required'
 
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-
-        setErrors({
-            ...errors,
-            [name]: '',
-        })
+    if (!data.email.trim()) {
+        errors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        errors.email = 'Enter a valid email'
     }
 
-    // Submit
+    if (!data.subject.trim()) errors.subject = 'Subject is required'
+
+    if (!data.message.trim()) {
+        errors.message = 'Message is required'
+    } else if (data.message.trim().length < MIN_MESSAGE) {
+        errors.message = `Minimum ${MIN_MESSAGE} characters required`
+    }
+
+    return errors
+}
+
+const inputBase =
+    'w-full rounded-lg border bg-[var(--surface)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition-colors duration-200 placeholder:text-[var(--text-muted)] focus-visible:ring-[3px]'
+
+const inputClass = (hasError) =>
+    `${inputBase} ${
+        hasError
+            ? 'border-red-500 focus-visible:ring-red-500/25'
+            : 'border-[var(--border)] hover:border-[var(--text-muted)] focus:border-[var(--accent)] focus-visible:ring-[color-mix(in_srgb,var(--accent)_25%,transparent)]'
+    }`
+
+function Field({ id, label, error, hint, children }) {
+    return (
+        <div>
+            <div className="mb-2 flex items-baseline justify-between gap-3">
+                <label htmlFor={id} className="text-sm font-medium text-[var(--text-primary)]">
+                    {label}
+                </label>
+                {hint}
+            </div>
+
+            {children}
+
+            {error && (
+                <p
+                    id={`${id}-error`}
+                    role="alert"
+                    className="mt-1.5 flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400"
+                >
+                    <HiXCircle aria-hidden="true" />
+                    {error}
+                </p>
+            )}
+        </div>
+    )
+}
+
+export default function ContactForm() {
+    const [formData, setFormData] = useState(INITIAL)
+    const [errors, setErrors] = useState({})
+    const [sending, setSending] = useState(false)
+    const [honeypot, setHoneypot] = useState('')
+    const formRef = useRef(null)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
+        setErrors((prev) => (prev[name] ? { ...prev, [name]: '' } : prev))
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (sending) return
 
-        const validate = () => {
-            const newErrors = {}
-
-            if (!formData.name.trim()) {
-                newErrors.name = 'Name is required'
-            }
-
-            if (!formData.email.trim()) {
-                newErrors.email = 'Email is required'
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-                newErrors.email = 'Enter a valid email'
-            }
-
-            if (!formData.subject.trim()) {
-                newErrors.subject = 'Subject is required'
-            }
-
-            if (!formData.message.trim()) {
-                newErrors.message = 'Message is required'
-            } else if (formData.message.trim().length < 20) {
-                newErrors.message = 'Minimum 20 characters required'
-            }
-
-            return newErrors
-        }
-
-        const validationErrors = validate()
+        const validationErrors = validate(formData)
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
+            const firstInvalid = FIELD_ORDER.find((key) => validationErrors[key])
+            formRef.current?.elements[firstInvalid]?.focus()
+            return
+        }
+
+        // Honeypot spam protection
+        if (honeypot) {
+            toast.success('Message sent successfully!')
+            setFormData(INITIAL)
             return
         }
 
         try {
             setSending(true)
 
-            await sendEmail(formData)
-
-            toast.success('Message sent successfully!')
-
-            setFormData({
-                name: '',
-                email: '',
-                subject: '',
-                message: '',
+            await sendEmail({
+                name: formData.name.trim(),
+                email: formData.email.trim(),
+                subject: formData.subject.trim(),
+                message: formData.message.trim(),
             })
 
+            toast.success('Message sent successfully!')
+            setFormData(INITIAL)
             setErrors({})
         } catch (error) {
-            console.log(error)
-            toast.error('Failed to send message')
+            console.error(error)
+            toast.error('Failed to send. Please try again or email me directly.')
         } finally {
             setSending(false)
         }
     }
 
-    // Input Classes
-    const inputClass = (error) => `
-    w-full px-4 py-3 rounded-xl text-sm
-    bg-gray-50 dark:bg-gray-800/60
-    border outline-none transition-all duration-300
-    text-gray-800 dark:text-gray-200
-    placeholder:text-gray-400 dark:placeholder:text-gray-500
-    ${error
-            ? 'border-red-400 focus:ring-2 focus:ring-red-500/20'
-            : 'border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500'
-        }
-  `
+    const describe = (name) => (errors[name] ? `${name}-error` : undefined)
+    const messageLength = formData.message.trim().length
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-        >
-            <div className="glass-card rounded-3xl p-6 sm:p-8">
+        <div className="glass-card p-6 sm:p-8">
+            {/* Header */}
+            <div className="mb-7">
+                <h3 className="text-xl font-semibold text-[var(--text-primary)]">
+                    Send a message
+                </h3>
+                <p className="mt-1.5 text-sm text-[var(--text-secondary)]">
+                    Fill out the form and I’ll get back to you soon.
+                </p>
+            </div>
 
-                {/* Header */}
-                <div className="mb-7">
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                        Send Message
-                    </h3>
-
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Fill out the form and I’ll get back to you soon.
-                    </p>
+            <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                noValidate
+                aria-busy={sending}
+                className="relative space-y-5"
+            >
+                {/* Honeypot: insaan ko nazar nahi aata */}
+                <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+                    <label htmlFor="website">Website</label>
+                    <input
+                        id="website"
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                    />
                 </div>
 
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-5">
-
-                    {/* Name + Email */}
-                    <div className="grid sm:grid-cols-2 gap-5">
-
-                        {/* Name */}
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                                Full Name
-                            </label>
-
-                            <div className="relative">
-                                <HiCode className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className={`${inputClass(errors.name)} pl-11`}
-                                />
-                            </div>
-
-                            <AnimatePresence>
-                                {errors.name && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -5 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0 }}
-                                        className="text-red-500 text-xs mt-1 flex items-center gap-1"
-                                    >
-                                        <HiXCircle />
-                                        {errors.name}
-                                    </motion.p>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Email */}
-                        <div>
-                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                                Email Address
-                            </label>
-
-                            <div className="relative">
-                                <HiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="name@example.com"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className={`${inputClass(errors.email)} pl-11`}
-                                />
-                            </div>
-
-                            <AnimatePresence>
-                                {errors.email && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -5 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0 }}
-                                        className="text-red-500 text-xs mt-1 flex items-center gap-1"
-                                    >
-                                        <HiXCircle />
-                                        {errors.email}
-                                    </motion.p>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </div>
-
-                    {/* Subject */}
-                    <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                            Subject
-                        </label>
-
-                        <div className="relative">
-                            <HiChat className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                            <input
-                                type="text"
-                                name="subject"
-                                placeholder="Project Inquiry"
-                                value={formData.subject}
-                                onChange={handleChange}
-                                className={`${inputClass(errors.subject)} pl-11`}
-                            />
-                        </div>
-
-                        <AnimatePresence>
-                            {errors.subject && (
-                                <motion.p
-                                    initial={{ opacity: 0, y: -5 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0 }}
-                                    className="text-red-500 text-xs mt-1 flex items-center gap-1"
-                                >
-                                    <HiXCircle />
-                                    {errors.subject}
-                                </motion.p>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Message */}
-                    <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                            Message
-                        </label>
-
-                        <textarea
-                            rows={6}
-                            name="message"
-                            placeholder="Write your message here..."
-                            value={formData.message}
+                {/* Name + Email */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                    <Field id="name" label="Full name" error={errors.name}>
+                        <input
+                            id="name"
+                            type="text"
+                            name="name"
+                            autoComplete="name"
+                            placeholder="Your name"
+                            value={formData.name}
                             onChange={handleChange}
-                            className={`${inputClass(errors.message)} resize-none`}
+                            aria-invalid={Boolean(errors.name)}
+                            aria-describedby={describe('name')}
+                            className={inputClass(errors.name)}
                         />
+                    </Field>
 
-                        <AnimatePresence>
-                            {errors.message && (
-                                <motion.p
-                                    initial={{ opacity: 0, y: -5 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0 }}
-                                    className="text-red-500 text-xs mt-1 flex items-center gap-1"
-                                >
-                                    <HiXCircle />
-                                    {errors.message}
-                                </motion.p>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                    <Field id="email" label="Email address" error={errors.email}>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            placeholder="name@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                            aria-invalid={Boolean(errors.email)}
+                            aria-describedby={describe('email')}
+                            className={inputClass(errors.email)}
+                        />
+                    </Field>
+                </div>
 
-                    {/* Button */}
-                    <motion.button
-                        type="submit"
-                        disabled={sending}
-                        whileHover={!sending ? { scale: 1.02 } : {}}
-                        whileTap={!sending ? { scale: 0.98 } : {}}
-                        className={`w-full py-4 rounded-2xl font-semibold text-white
-            flex items-center justify-center gap-3 transition-all duration-300
-            ${sending
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-linear-to-r from-primary-500 to-accent-500 hover:to-accent-600 hover:from-primary-600 shadow-xl shadow-primary-500/20'
+                {/* Subject */}
+                <Field id="subject" label="Subject" error={errors.subject}>
+                    <input
+                        id="subject"
+                        type="text"
+                        name="subject"
+                        placeholder="Project inquiry"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        aria-invalid={Boolean(errors.subject)}
+                        aria-describedby={describe('subject')}
+                        className={inputClass(errors.subject)}
+                    />
+                </Field>
+
+                {/* Message */}
+                <Field
+                    id="message"
+                    label="Message"
+                    error={errors.message}
+                    hint={
+                        <span
+                            className={`font-mono text-[11px] ${
+                                messageLength >= MIN_MESSAGE
+                                    ? 'text-[var(--accent)]'
+                                    : 'text-[var(--text-muted)]'
                             }`}
-                    >
-                        {sending ? (
-                            'Sending...'
-                        ) : (
-                            <>
-                                <HiPaperAirplane className="rotate-90 text-lg" />
-                                Send Message
-                            </>
-                        )}
-                    </motion.button>
+                        >
+                            {messageLength >= MIN_MESSAGE
+                                ? `${messageLength} chars`
+                                : `${messageLength}/${MIN_MESSAGE} min`}
+                        </span>
+                    }
+                >
+                    <textarea
+                        id="message"
+                        rows={6}
+                        name="message"
+                        placeholder="Tell me about your project or opportunity..."
+                        value={formData.message}
+                        onChange={handleChange}
+                        aria-invalid={Boolean(errors.message)}
+                        aria-describedby={describe('message')}
+                        className={`${inputClass(errors.message)} min-h-36 resize-none`}
+                    />
+                </Field>
 
-                </form>
-            </div>
-        </motion.div>
+                {/* Submit */}
+                <button
+                    type="submit"
+                    disabled={sending}
+                    className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                    {sending ? (
+                        <>
+                            <span
+                                aria-hidden="true"
+                                className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                            />
+                            Sending...
+                        </>
+                    ) : (
+                        <>
+                            <HiPaperAirplane aria-hidden="true" className="rotate-90 text-base" />
+                            Send message
+                        </>
+                    )}
+                </button>
+            </form>
+        </div>
     )
 }

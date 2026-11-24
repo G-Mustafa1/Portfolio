@@ -1,28 +1,40 @@
-// @refresh reset
-import React, { createContext, useContext, useEffect, useState } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useState } from 'react'
 
 const ThemeContext = createContext(null)
+
+const STORAGE_KEY = 'theme'
+const COLORS = { dark: '#09090b', light: '#f8fafc' }
 
 export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(() => {
     try {
-      const storedTheme = localStorage.getItem('theme')
-      if (storedTheme === 'dark') return true
-      if (storedTheme === 'light') return false
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
+      return localStorage.getItem(STORAGE_KEY) !== 'light'
     } catch {
-      return false
+      return true
     }
   })
 
   useEffect(() => {
+    const theme = isDark ? 'dark' : 'light'
     const root = document.documentElement
+
     root.classList.toggle('dark', isDark)
-    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+    root.style.colorScheme = theme
+    root.style.backgroundColor = COLORS[theme]
+    document
+      .getElementById('theme-color')
+      ?.setAttribute('content', COLORS[theme])
+
+    try {
+      localStorage.setItem(STORAGE_KEY, theme)
+    } catch {
+      // storage unavailable
+    }
   }, [isDark])
 
   const toggleTheme = () => {
-    setIsDark(prev => !prev)
+    setIsDark((prev) => !prev)
   }
 
   return (
@@ -38,4 +50,4 @@ export function useTheme() {
     throw new Error('useTheme must be used within a ThemeProvider')
   }
   return context
-}
+}

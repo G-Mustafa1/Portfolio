@@ -1,18 +1,12 @@
 import {
     HiMail,
     HiLocationMarker,
-    HiPhone,
-    HiPaperAirplane,
-    HiCheckCircle,
-    HiXCircle,
-    HiCode,
     HiClock,
     HiChat,
 } from 'react-icons/hi'
 import {
     FaGithub,
     FaLinkedinIn,
-    FaTwitter,
 } from 'react-icons/fa'
 import { SiWhatsapp } from 'react-icons/si'
 
@@ -22,9 +16,9 @@ export const CONTACT_INFO = [
         label: 'Email',
         value: 'gmustufa1255@gmail.com',
         link: 'mailto:gmustufa1255@gmail.com',
-        color: 'text-red-500',
-        bg: 'bg-red-50 dark:bg-red-900/20',
-        border: 'border-red-100 dark:border-red-800/30',
+        color: 'text-primary-700 dark:text-primary-300',
+        bg: 'bg-primary-50 dark:bg-primary-900/25',
+        border: 'border-primary-200 dark:border-primary-800/60',
         desc: 'Drop me an email anytime',
     },
     {
@@ -32,9 +26,9 @@ export const CONTACT_INFO = [
         label: 'Location',
         value: 'Karachi, Sindh, Pakistan',
         link: 'https://maps.google.com/?q=Karachi,Pakistan',
-        color: 'text-blue-500',
-        bg: 'bg-blue-50 dark:bg-blue-900/20',
-        border: 'border-blue-100 dark:border-blue-800/30',
+        color: 'text-primary-700 dark:text-primary-300',
+        bg: 'bg-primary-50 dark:bg-primary-900/25',
+        border: 'border-primary-200 dark:border-primary-800/60',
         desc: 'Available on-site & hybrid',
     },
     {
@@ -42,10 +36,9 @@ export const CONTACT_INFO = [
         label: 'Availability',
         value: 'Open to Work',
         link: null,
-        color: 'text-accent-500',
-        color: 'text-accent-500',
-        bg: 'bg-green-50 dark:bg-green-900/20',
-        border: 'border-green-100 dark:border-green-800/30',
+        color: 'text-primary-700 dark:text-primary-300',
+        bg: 'bg-primary-50 dark:bg-primary-900/25',
+        border: 'border-primary-200 dark:border-primary-800/60',
         desc: 'Actively seeking opportunities',
     },
     {
@@ -53,9 +46,9 @@ export const CONTACT_INFO = [
         label: 'Response Time',
         value: 'Within 24 hours',
         link: null,
-        color: 'text-purple-500',
-        bg: 'bg-purple-50 dark:bg-purple-900/20',
-        border: 'border-purple-100 dark:border-purple-800/30',
+        color: 'text-primary-700 dark:text-primary-300',
+        bg: 'bg-primary-50 dark:bg-primary-900/25',
+        border: 'border-primary-200 dark:border-primary-800/60',
         desc: 'I reply to all messages',
     },
 ]
@@ -76,9 +69,9 @@ export const SOCIALS = [
         label: 'LinkedIn',
         href: 'https://www.linkedin.com/in/ghulam-mustufa',
         username: 'ghulam-mustufa',
-        color: 'hover:text-blue-600 dark:hover:text-blue-400',
-        bg: 'hover:bg-blue-50 dark:hover:bg-blue-900/20',
-        border: 'hover:border-blue-300 dark:hover:border-blue-700',
+        color: 'hover:text-primary-700 dark:hover:text-primary-300',
+        bg: 'hover:bg-primary-50 dark:hover:bg-primary-900/30',
+        border: 'hover:border-primary-300 dark:hover:border-primary-700',
     },
 
     {
@@ -86,8 +79,8 @@ export const SOCIALS = [
         label: 'WhatsApp',
         href: 'https://wa.me/923158965825',
         username: 'Chat on WhatsApp',
-        color: 'hover:text-green-600 dark:hover:text-green-400',
-        bg: 'hover:bg-green-50 dark:hover:bg-green-900/20',
-        border: 'hover:border-green-300 dark:hover:border-green-700',
+        color: 'hover:text-primary-700 dark:hover:text-primary-300',
+        bg: 'hover:bg-primary-50 dark:hover:bg-primary-900/30',
+        border: 'hover:border-primary-300 dark:hover:border-primary-700',
     },
 ]

@@ -1,53 +1,50 @@
 import { motion } from 'framer-motion'
-import { HiMail } from 'react-icons/hi'
 import ContactInfo from '../components/contact/ContactInfo'
 import ContactForm from '../components/contact/ContactForm'
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 },
+  }),
+}
+
+const viewport = { once: true, amount: 0.15 }
 
 export default function Contact() {
   return (
     <section id="contact" className="section-padding">
       <div className="container-max">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <span
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full
-            bg-primary-50 dark:bg-primary-900/30
-            border border-primary-200 dark:border-primary-800/40
-            text-primary-600 dark:text-primary-400
-            text-sm font-medium mb-4"
+        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          {/* Left: intro + details */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
           >
-            <HiMail />
-            Get In Touch
-          </span>
+            <span className="section-eyebrow">Contact</span>
+            <h2 className="section-title max-w-md">Have a project in mind?</h2>
+            <p className="mb-10 max-w-md text-base leading-7 text-[var(--text-secondary)] sm:text-lg sm:leading-8">
+              Whether it’s an opportunity, a project or just a question, send me
+              a message and I’ll get back to you.
+            </p>
 
-          <h2 className="section-title">
-            Let's <span className="gradient-text">Work Together</span>
-          </h2>
+            <ContactInfo />
+          </motion.div>
 
-          <p className="section-subtitle">
-            Have a project or opportunity? Feel free to contact me anytime.
-          </p>
-        </motion.div>
-
-        {/* Main Grid */}
-        <div className="grid lg:grid-cols-5 gap-8">
-
-          <div className="lg:col-span-2">
-            < ContactInfo/>
-          </div>
-
-          <div className="lg:col-span-3">
+          {/* Right: form */}
+          <motion.div
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             <ContactForm />
-          </div>
-
+          </motion.div>
         </div>
       </div>
     </section>

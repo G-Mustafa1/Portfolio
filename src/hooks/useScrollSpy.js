@@ -1,34 +1,47 @@
 import { useEffect, useState } from 'react'
 
-export function useScrollSpy(sectionIds, offset = 100) {
+export function useScrollSpy(sectionIds, offset = 120) {
   const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
-    let ticking = false
+    let frame = 0
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY
+    const update = () => {
+      frame = 0
 
-          for (let i = sectionIds.length - 1; i >= 0; i--) {
-            const el = document.getElementById(sectionIds[i])
-            if (el && el.offsetTop - offset <= scrollY) {
-              setActiveSection(sectionIds[i])
-              ticking = false
-              return
-            }
-          }
-          setActiveSection('')
-          ticking = false
-        })
-        ticking = true
+      const line = Math.max(offset, window.innerHeight * 0.3)
+
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4
+      if (atBottom) {
+        setActiveSection(sectionIds[sectionIds.length - 1])
+        return
       }
+
+      let current = ''
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) {
+          current = id
+        }
+      }
+      setActiveSection(current)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      if (frame) cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [sectionIds, offset])
 
   return activeSection
